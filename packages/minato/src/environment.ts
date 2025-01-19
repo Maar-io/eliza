@@ -3,13 +3,13 @@ import { isAddress } from "viem";
 import { z } from "zod";
 
 export const evmEnvSchema = z.object({
-    EVM_ADDRESS: z
+    MAI_ADDRESS: z
         .string()
         .min(1, "EVM address is required")
         .refine((address) => isAddress(address, { strict: false }), {
             message: "EVM address must be a valid address",
         }),
-    EVM_PRIVATE_KEY: z
+    MAI_PRIVATE_KEY: z
         .string()
         .min(1, "EVM private key is required")
         .refine((key) => /^[a-fA-F0-9]{64}$/.test(key), {
@@ -20,13 +20,13 @@ export const evmEnvSchema = z.object({
 
 export type EVMConfig = z.infer<typeof evmEnvSchema>;
 
-export async function validateEVMConfig(
+export async function validateEvmConfig(
     runtime: IAgentRuntime
 ): Promise<EVMConfig> {
     try {
         const config = {
-            EVM_ADDRESS: runtime.getSetting("EVM_ADDRESS"),
-            EVM_PRIVATE_KEY: runtime.getSetting("EVM_PRIVATE_KEY"),
+            MAI_ADDRESS: runtime.getSetting("MAI_ADDRESS"),
+            MAI_PRIVATE_KEY: runtime.getSetting("MAI_PRIVATE_KEY"),
         };
 
         return evmEnvSchema.parse(config);

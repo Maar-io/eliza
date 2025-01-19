@@ -17,6 +17,17 @@ export class ValidateContext {
             return false;
         }
 
+        if (amount === 0) {
+            return false;
+        }
+
+        if (typeof amount === "number" && amount > 1000) {
+            return false;
+        }
+
+        if (typeof amount === "string" && parseInt(amount) > 1000) {
+            return false;
+        }
         // Validate addresses
         return [tokenAddress, recipient].every((address) =>
             isAddress(address, { strict: false })
